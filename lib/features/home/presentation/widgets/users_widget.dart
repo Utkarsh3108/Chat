@@ -124,61 +124,65 @@ class UsersWidget extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           },
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            // Show dialog to add a user
-            showDialog(
-              context: context,
-              builder: (context) {
-                final controller = TextEditingController();
-                return AlertDialog(
-                  backgroundColor: Colors.white,
-                  title: const Text(
-                    'Add User',
-                    style: TextStyle(color: Colors.blue),
-                  ),
-                  content: TextField(
-                    controller: controller,
-                    decoration: const InputDecoration(
-                      hintStyle: TextStyle(color: Colors.blue),
-                      hintText: 'Enter name',
+        floatingActionButton: BlocBuilder<UsersBloc, UsersState>(
+          builder: (blocContext, state) {
+            return FloatingActionButton(
+            onPressed: () {
+              // Show dialog to add a user
+              showDialog(
+                context: context,
+                builder: (context) {
+                  final controller = TextEditingController();
+                  return AlertDialog(
+                    backgroundColor: Colors.white,
+                    title: const Text(
+                      'Add User',
+                      style: TextStyle(color: Colors.blue),
                     ),
-                  ),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text(
-                        'Cancel',
-                        style: TextStyle(color: Colors.blue),
+                    content: TextField(
+                      controller: controller,
+                      decoration: const InputDecoration(
+                        hintStyle: TextStyle(color: Colors.blue),
+                        hintText: 'Enter name',
                       ),
                     ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue,
-                      ), // Background color
-                      onPressed: () {
-                        final name = controller.text.trim();
-                        if (name.isNotEmpty) {
-                          // Add user event
-                          context.read<UsersBloc>().add(AddUser(name));
-                          Navigator.pop(
-                            context,
-                          ); // Close the dialog after adding user
-                        }
-                      },
-                      child: const Text(
-                        'Add',
-                        style: TextStyle(color: Colors.white),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text(
+                          'Cancel',
+                          style: TextStyle(color: Colors.blue),
+                        ),
                       ),
-                    ),
-                  ],
-                );
-              },
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                        ), // Background color
+                        onPressed: () {
+                          final name = controller.text.trim();
+                          if (name.isNotEmpty) {
+                            // Add user event
+                            blocContext.read<UsersBloc>().add(AddUser(name));
+                            Navigator.pop(
+                              context,
+                            ); // Close the dialog after adding user
+                          }
+                        },
+                        child: const Text(
+                          'Add',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+            shape: const CircleBorder(),
+            backgroundColor: Colors.blue,
+            child: const Icon(Icons.add, color: Colors.white),
             );
-          },
-          shape: const CircleBorder(),
-          backgroundColor: Colors.blue,
-          child: const Icon(Icons.add, color: Colors.white),
+          }
         ),
       ),
     );
