@@ -1,3 +1,4 @@
+import 'package:chat_ai/features/chat/presentation/chat_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/users_bloc.dart';
@@ -18,88 +19,103 @@ class UsersWidget extends StatelessWidget {
             if (state is UsersLoaded) {
               final users = state.users;
               return ListView.builder(
-            
                 itemCount: users.length,
                 itemBuilder: (context, index) {
                   final user = users[index];
                   final initial = user.name.isNotEmpty ? user.name[0] : '?';
                   final isOnline = user.status.toLowerCase() == 'online';
 
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 10,
-                      horizontal: 16,
-                    ),
-                    child: Row(
-                      children: [
-                        Stack(
-                          clipBehavior: Clip.none,
-                          children: [
-                            // Avatar with blue-purple gradient
-                            Container(
-                              width: 56,
-                              height: 56,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                gradient: LinearGradient(
-                                  colors: [Colors.blue, Colors.purple],
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                ),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  initial,
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
+                  return GestureDetector(
+                    // Wrap the row in GestureDetector for tap handling
+                    onTap: () {
+                      // Navigate to ChatScreen when a row is tapped
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ChatScreen(
+                            userName: user.name,
+                            status: user.status,
+                          
+                          ),
+                        ),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 16,
+                      ),
+                      child: Row(
+                        children: [
+                          Stack(
+                            clipBehavior: Clip.none,
+                            children: [
+                              // Avatar with blue-purple gradient
+                              Container(
+                                width: 56,
+                                height: 56,
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  gradient: LinearGradient(
+                                    colors: [Colors.blue, Colors.purple],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
                                   ),
                                 ),
-                              ),
-                            ),
-                            // Online dot
-                            if (isOnline)
-                              Positioned(
-                                bottom: 1,
-                                right: 1,
-                                child: Container(
-                                  width: 14,
-                                  height: 14,
-                                  decoration: BoxDecoration(
-                                    color: Colors.green,
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
+                                child: Center(
+                                  child: Text(
+                                    initial,
+                                    style: const TextStyle(
                                       color: Colors.white,
-                                      width: 1,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
                                     ),
                                   ),
                                 ),
                               ),
-                          ],
-                        ),
-                        const SizedBox(width: 24),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              user.name,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
+                              // Online dot
+                              if (isOnline)
+                                Positioned(
+                                  bottom: 1,
+                                  right: 1,
+                                  child: Container(
+                                    width: 14,
+                                    height: 14,
+                                    decoration: BoxDecoration(
+                                      color: Colors.green,
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        color: Colors.white,
+                                        width: 1,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          ),
+                          const SizedBox(width: 24),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                user.name,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              user.status,
-                              style: TextStyle(
-                                color: Colors.grey.shade600,
-                                fontSize: 14,
+                              const SizedBox(height: 4),
+                              Text(
+                                user.status,
+                                style: TextStyle(
+                                  color: Colors.grey.shade600,
+                                  fontSize: 14,
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },
@@ -117,15 +133,24 @@ class UsersWidget extends StatelessWidget {
                 final controller = TextEditingController();
                 return AlertDialog(
                   backgroundColor: Colors.white,
-                  title: const Text(style: TextStyle(color: Colors.blue),'Add User'),
+                  title: const Text(
+                    'Add User',
+                    style: TextStyle(color: Colors.blue),
+                  ),
                   content: TextField(
                     controller: controller,
-                    decoration: const InputDecoration(hintStyle: TextStyle(color: Colors.blue),hintText: 'Enter name'),
+                    decoration: const InputDecoration(
+                      hintStyle: TextStyle(color: Colors.blue),
+                      hintText: 'Enter name',
+                    ),
                   ),
                   actions: [
                     TextButton(
                       onPressed: () => Navigator.pop(context),
-                      child: const Text(style: TextStyle(color: Colors.blue),'Cancel'),
+                      child: const Text(
+                        'Cancel',
+                        style: TextStyle(color: Colors.blue),
+                      ),
                     ),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
@@ -141,7 +166,10 @@ class UsersWidget extends StatelessWidget {
                           ); // Close the dialog after adding user
                         }
                       },
-                      child: const Text(style: TextStyle(color: Colors.white),'Add'),
+                      child: const Text(
+                        'Add',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                   ],
                 );
