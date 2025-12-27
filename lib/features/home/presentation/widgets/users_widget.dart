@@ -18,7 +18,7 @@ class UsersWidget extends StatelessWidget {
             if (state is UsersLoaded) {
               final users = state.users;
               return ListView.builder(
-                padding: const EdgeInsets.all(16),
+            
                 itemCount: users.length,
                 itemBuilder: (context, index) {
                   final user = users[index];
@@ -27,7 +27,7 @@ class UsersWidget extends StatelessWidget {
 
                   return Padding(
                     padding: const EdgeInsets.symmetric(
-                      vertical: 8.0,
+                      vertical: 10,
                       horizontal: 16,
                     ),
                     child: Row(
