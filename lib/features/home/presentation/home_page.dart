@@ -48,17 +48,19 @@ class HomePage extends StatelessWidget {
                 ),
               ),
             ),
-            body:  PageStorage(
-                bucket: PageStorageBucket(),
-                child: BlocBuilder<HomeToggleBloc, HomeToggleState>(
-                  builder: (context, state) {
-                    if (state.selectedIndex == 0) {
-                      return const UsersWidget();
-                    } else {
-                      return const ChatHistoryWidget();
-                    }
-                  },
-                ),
+            body: PageStorage(
+              bucket: PageStorageBucket(),
+              child: IndexedStack(
+                index: state.selectedIndex,
+                children: const [
+                  UsersWidget(
+                    key: PageStorageKey('users_list'),
+                  ),
+                  ChatHistoryWidget(
+                    key: PageStorageKey('chat_history_list'),
+                  ),
+                ],
+              ),
             ),
           );
         },
