@@ -29,6 +29,7 @@ class ChatHistoryWidget extends StatelessWidget {
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16),
                     child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         // Avatar with gradient
                         Container(
