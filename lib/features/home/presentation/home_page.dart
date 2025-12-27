@@ -17,49 +17,64 @@ class HomePage extends StatelessWidget {
       create: (_) => HomeToggleBloc(),
       child: BlocBuilder<HomeToggleBloc, HomeToggleState>(
         builder: (context, state) {
-          return Scaffold(
-            backgroundColor: Colors.white,
-            appBar: AppBar(
-              toolbarHeight: 70,
+          return SafeArea(
+            child: Scaffold(
               backgroundColor: Colors.white,
-              elevation: 0,
-              title: Center(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 10.0, // top & bottom
-                    horizontal: 14.0, // left & right
-                  ),
-                  child: CapsuleToggle(
-                    selectedIndex: state.selectedIndex,
-                    onChanged: (index) {
-                      context.read<HomeToggleBloc>().add(
-                        HomeToggleChanged(index),
-                      );
-                    },
+              body: NestedScrollView(
+                headerSliverBuilder: (context, innerBoxIsScrolled) {
+                  return [
+                    SliverAppBar(
+                      backgroundColor: Colors.white,
+                      elevation: 0,
+                      toolbarHeight: 70,
+            
+                      // 🔑 Scroll behavior
+                      pinned: false,
+                      floating: true,
+                      snap: true,
+            
+                      title: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 10,
+                          horizontal: 14,
+                        ),
+                        child: Center(
+                          child: CapsuleToggle(
+                            selectedIndex: state.selectedIndex,
+                            onChanged: (index) {
+                              context
+                                  .read<HomeToggleBloc>()
+                                  .add(HomeToggleChanged(index));
+                            },
+                          ),
+                        ),
+                      ),
+            
+                      bottom: const PreferredSize(
+                        preferredSize: Size.fromHeight(1),
+                        child: Divider(
+                          thickness: 1,
+                          color: Color.fromARGB(255, 245, 245, 245),
+                          height: 0.1,
+                        ),
+                      ),
+                    ),
+                  ];
+                },
+                body: PageStorage(
+                  bucket: PageStorageBucket(),
+                  child: IndexedStack(
+                    index: state.selectedIndex,
+                    children:  [
+                      UsersWidget(
+                        key: PageStorageKey('users_list'),
+                      ),
+                      ChatHistoryWidget(
+                        key: PageStorageKey('chat_history_list'),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-              bottom: const PreferredSize(
-                preferredSize: Size.fromHeight(1),
-                child: Divider(
-                  thickness: 1,
-                  color: Color.fromARGB(255, 245, 245, 245),
-                  height: 0.1,
-                ),
-              ),
-            ),
-            body: PageStorage(
-              bucket: PageStorageBucket(),
-              child: IndexedStack(
-                index: state.selectedIndex,
-                children: const [
-                  UsersWidget(
-                    key: PageStorageKey('users_list'),
-                  ),
-                  ChatHistoryWidget(
-                    key: PageStorageKey('chat_history_list'),
-                  ),
-                ],
               ),
             ),
           );
