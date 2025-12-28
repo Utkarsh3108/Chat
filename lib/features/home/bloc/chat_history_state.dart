@@ -1,17 +1,28 @@
-import 'package:chat_ai/features/home/models/chat_history.dart';
+import 'package:equatable/equatable.dart';
+import '../models/chat_history.dart';
 
-abstract class ChatHistoryState {}
+abstract class ChatHistoryState extends Equatable {
+  const ChatHistoryState();
+
+  @override
+  List<Object> get props => [];
+}
 
 class ChatHistoryLoading extends ChatHistoryState {}
 
 class ChatHistoryLoaded extends ChatHistoryState {
   final List<ChatHistory> chatHistory;
+  const ChatHistoryLoaded(this.chatHistory);
 
-  ChatHistoryLoaded(this.chatHistory);
+  @override
+  List<Object> get props => [chatHistory];
 }
 
 class ChatHistoryError extends ChatHistoryState {
   final String errorMessage;
 
-  ChatHistoryError(this.errorMessage);
+  const ChatHistoryError(this.errorMessage);
+
+  @override
+  List<Object> get props => [errorMessage];
 }

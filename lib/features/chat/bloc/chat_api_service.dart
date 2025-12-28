@@ -2,9 +2,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ChatApiService {
-  final String _url = "https://dummyjson.com/comments"; // API endpoint
+  final String _url = "https://dummyjson.com/comments";
 
-  // Fetch chat messages
   Future<List<Map<String, String>>> fetchMessages() async {
     try {
       final response = await http.get(Uri.parse(_url));
@@ -12,13 +11,12 @@ class ChatApiService {
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
 
-        // Parse the API response to get the 'body' as message and 'user' as username
         List<Map<String, String>> messages = [];
         for (var comment in data['comments']) {
           messages.add({
-            'message': comment['body'], // Message content
-            'user': comment['user']['username'], // Username
-            'time': "12:00 PM", // Use any time format you want, could be static for now
+            'message': comment['body'],
+            'user': comment['user']['username'],
+            'time': "12:00 PM",
           });
         }
         return messages;

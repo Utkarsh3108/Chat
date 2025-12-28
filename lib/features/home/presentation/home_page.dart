@@ -27,12 +27,9 @@ class HomePage extends StatelessWidget {
                       backgroundColor: Colors.white,
                       elevation: 0,
                       toolbarHeight: 70,
-            
-                      // 🔑 Scroll behavior
                       pinned: false,
                       floating: true,
                       snap: true,
-            
                       title: Padding(
                         padding: const EdgeInsets.symmetric(
                           vertical: 10,
@@ -49,7 +46,6 @@ class HomePage extends StatelessWidget {
                           ),
                         ),
                       ),
-            
                       bottom: const PreferredSize(
                         preferredSize: Size.fromHeight(1),
                         child: Divider(

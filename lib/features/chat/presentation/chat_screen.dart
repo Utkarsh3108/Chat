@@ -1,11 +1,11 @@
-import 'package:chat_ai/features/chat/bloc/chat_api_service';
+import 'package:chat_ai/features/chat/bloc/chat_api_service.dart';
 import 'package:chat_ai/features/chat/bloc/chat_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChatScreen extends StatelessWidget {
-  final String userName; // Variable to store the username
-  final String status; // Variable to store the user's status
+  final String userName;
+  final String status;
 
   const ChatScreen({
     super.key,
@@ -15,7 +15,7 @@ class ChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final initial = userName.isNotEmpty ? userName[0] : '?'; // Initial for the avatar
+    final initial = userName.isNotEmpty ? userName[0] : '?';
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -25,12 +25,11 @@ class ChatScreen extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context); // Go back to the previous screen
+            Navigator.pop(context);
           },
         ),
         title: Row(
           children: [
-            // Avatar with the same gradient as the user row
             Container(
               width: 50,
               height: 50,
@@ -53,20 +52,20 @@ class ChatScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(width: 12), // Space between the avatar and text
+            const SizedBox(width: 12),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  userName, // User's name
+                  userName,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
                   ),
                 ),
-                const SizedBox(height: 4), // Space between name and status
+                const SizedBox(height: 4),
                 Text(
-                  status, // User's status (online, 5 mins ago, etc.)
+                  status,
                   style: const TextStyle(
                     fontSize: 14,
                     color: Color.fromRGBO(
@@ -74,7 +73,7 @@ class ChatScreen extends StatelessWidget {
                       117,
                       117,
                       1,
-                    ), // Lighter color for the status
+                    ),
                   ),
                 ),
               ],
@@ -111,7 +110,7 @@ class ChatScreen extends StatelessWidget {
                   itemCount: messages.length,
                   itemBuilder: (context, index) {
                     final message = messages[index];
-                    final isSender = index % 2 == 0; // Randomly make half the messages sender, the other half receiver
+                    final isSender = index % 2 == 0;
                     final messageTime = message['time'];
                     final messageText = message['message'];
 
@@ -126,7 +125,6 @@ class ChatScreen extends StatelessWidget {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             if (!isSender)
-                              // Receiver's Avatar (left)
                               Container(
                                 width: 40,
                                 height: 40,
@@ -142,7 +140,7 @@ class ChatScreen extends StatelessWidget {
                                   child: Text(
                                     userName.isNotEmpty
         ? userName[0]
-        : '?', // Receiver's initial
+        : '?',
                                     style: const TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
@@ -152,7 +150,6 @@ class ChatScreen extends StatelessWidget {
                                 ),
                               ),
                             const SizedBox(width: 8),
-                            // Chat bubble
                             Column(
                               crossAxisAlignment: isSender ? CrossAxisAlignment.end : CrossAxisAlignment.start,
                               children: [
@@ -197,7 +194,6 @@ class ChatScreen extends StatelessWidget {
                             ),
                             if (isSender) const SizedBox(width: 8),
                             if (isSender)
-                              // Sender's Avatar (right)
                               Container(
                                 width: 40,
                                 height: 40,
@@ -211,7 +207,7 @@ class ChatScreen extends StatelessWidget {
                                 ),
                                 child: Center(
                                   child: Text(
-                                    'Y', // Sender's initial
+                                    'Y',
                                     style: const TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,

@@ -5,5 +5,5 @@ abstract class HomeToggleState {
 }
 
 class HomeToggleLoaded extends HomeToggleState {
-  const HomeToggleLoaded(int selectedIndex) : super(selectedIndex);
+  const HomeToggleLoaded(super.selectedIndex);
 }

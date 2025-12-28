@@ -11,7 +11,7 @@ class ChatHistoryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => ChatHistoryBloc()..add(LoadChatHistory()), // Load initial chat history
+      create: (_) => ChatHistoryBloc()..add(LoadChatHistory()),
       child: Scaffold(
         backgroundColor: Colors.white,
         body: BlocBuilder<ChatHistoryBloc, ChatHistoryState>(
@@ -29,7 +29,6 @@ class ChatHistoryWidget extends StatelessWidget {
 
                   return GestureDetector(
                     onTap: () {
-                      // Navigate to ChatScreen when a row is tapped
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -46,7 +45,6 @@ class ChatHistoryWidget extends StatelessWidget {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // Avatar with gradient
                           Container(
                             width: 56,
                             height: 56,
@@ -66,17 +64,14 @@ class ChatHistoryWidget extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(width: 24),
-                          // User name, message, and status in a Column
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              // User name
                               Text(
                                 chat.userName,
                                 style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                               ),
                               const SizedBox(height: 4),
-                              // Last message
                               Text(
                                 chat.lastMessage,
                                 style: TextStyle(color: Colors.grey.shade600, fontSize: 14),
@@ -84,17 +79,14 @@ class ChatHistoryWidget extends StatelessWidget {
                             ],
                           ),
                           const Spacer(),
-                          // Column for status and new messages
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              // Status (e.g. online, 5 min ago)
                               Text(
                                 chat.status,
                                 style: TextStyle(color: Colors.grey.shade400, fontSize: 14,fontWeight: FontWeight.bold),
                               ),
                              
-                              // New message indicator (circular with number)
                               if (chat.newMessages > 0)
                                 Container(
                                   padding: const EdgeInsets.all(6),
@@ -116,7 +108,7 @@ class ChatHistoryWidget extends StatelessWidget {
                 },
               );
             } else if (state is ChatHistoryError) {
-              return Center(child: Text(state.errorMessage));  // Display error message
+              return Center(child: Text(state.errorMessage));
             }
 
             return const Center(child: Text('Failed to load chat history.'));

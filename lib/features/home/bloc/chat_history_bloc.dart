@@ -5,7 +5,6 @@ import 'chat_history_state.dart';
 
 class ChatHistoryBloc extends Bloc<ChatHistoryEvent, ChatHistoryState> {
   ChatHistoryBloc() : super(ChatHistoryLoading()) {
-    // Initially, set to loading state
     on<LoadChatHistory>(_onLoadChatHistory);
     on<AddChatHistory>(_onAddChatHistory);
   }
@@ -15,9 +14,8 @@ class ChatHistoryBloc extends Bloc<ChatHistoryEvent, ChatHistoryState> {
     Emitter<ChatHistoryState> emit,
   ) async {
     try {
-      emit(ChatHistoryLoading()); // Emit loading state before fetching data
+      emit(ChatHistoryLoading());
 
-      // Simulate a delay for loading data (you can replace it with actual data fetching)
       await Future.delayed(const Duration(seconds: 2));
 
       final chatHistory = [
@@ -179,9 +177,9 @@ class ChatHistoryBloc extends Bloc<ChatHistoryEvent, ChatHistoryState> {
         ),
       ];
 
-      emit(ChatHistoryLoaded(chatHistory)); // Emit loaded state with data
+      emit(ChatHistoryLoaded(chatHistory));
     } catch (e) {
-      emit(ChatHistoryError(e.toString())); // Emit error if something fails
+      emit(ChatHistoryError(e.toString()));
     }
   }
 
@@ -189,12 +187,11 @@ class ChatHistoryBloc extends Bloc<ChatHistoryEvent, ChatHistoryState> {
     AddChatHistory event,
     Emitter<ChatHistoryState> emit,
   ) async {
-    // Here you would typically add the new chat to the list (e.g., through an API or database)
     final chatHistory = List<ChatHistory>.from(
       (state as ChatHistoryLoaded).chatHistory,
     );
     chatHistory.add(event.chatHistory);
 
-    emit(ChatHistoryLoaded(chatHistory)); // Emit loaded state with updated list
+    emit(ChatHistoryLoaded(chatHistory));
   }
 }

@@ -11,7 +11,7 @@ class UsersWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => UsersBloc()..add(LoadUsers()), // Load initial users
+      create: (_) => UsersBloc()..add(LoadUsers()),
       child: Scaffold(
         backgroundColor: Colors.white,
         body: BlocBuilder<UsersBloc, UsersState>(
@@ -26,9 +26,7 @@ class UsersWidget extends StatelessWidget {
                   final isOnline = user.status.toLowerCase() == 'online';
 
                   return GestureDetector(
-                    // Wrap the row in GestureDetector for tap handling
                     onTap: () {
-                      // Navigate to ChatScreen when a row is tapped
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -127,7 +125,6 @@ class UsersWidget extends StatelessWidget {
           builder: (blocContext, state) {
             return FloatingActionButton(
               onPressed: () {
-                // Show dialog to add a user
                 showDialog(
                   context: context,
                   builder: (context) {

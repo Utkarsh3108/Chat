@@ -5,7 +5,7 @@ abstract class NavigationState {
 }
 
 class NavigationLoaded extends NavigationState {
-  const NavigationLoaded(int currentIndex) : super(currentIndex);
+  const NavigationLoaded(super.currentIndex);
 
   NavigationLoaded copyWith({int? currentIndex}) {
     return NavigationLoaded(currentIndex ?? this.currentIndex);
