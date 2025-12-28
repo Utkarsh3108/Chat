@@ -156,15 +156,13 @@ class UsersWidget extends StatelessWidget {
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blue,
-                          ), // Background color
+                          ), 
                           onPressed: () {
                             final name = controller.text.trim();
                             if (name.isNotEmpty) {
                               blocContext.read<UsersBloc>().add(AddUser(name));
 
-                              Navigator.pop(context); // close dialog
-
-                              // ✅ Show snackbar
+                              Navigator.pop(context);
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text('User added - $name'),
