@@ -1,6 +1,7 @@
+import 'package:chat_ai/features/chat/models/chat_mock_data.dart';
 import 'package:equatable/equatable.dart';
-import 'package:chat_ai/features/chat/bloc/chat_api_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'chat_api_service.dart';
 
 abstract class ChatEvent extends Equatable {
   @override
@@ -46,9 +47,27 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     Emitter<ChatState> emit,
   ) async {
     emit(ChatLoading());
+
     try {
-      final messages = await chatApiService.fetchMessages();
-      emit(ChatLoaded(messages: messages));
+    
+      final senderMessages =
+          await chatApiService.fetchSenderMessages();
+
+     
+      final List<Map<String, String>> mergedMessages = [];
+
+      for (int i = 0; i < senderMessages.length; i++) {
+        
+        mergedMessages.add(senderMessages[i]);
+
+      
+        mergedMessages.add(
+          ChatMockData.receiverMessages[
+              i % ChatMockData.receiverMessages.length],
+        );
+      }
+
+      emit(ChatLoaded(messages: mergedMessages));
     } catch (e) {
       emit(ChatError(error: e.toString()));
     }

@@ -110,7 +110,7 @@ class ChatScreen extends StatelessWidget {
                   itemCount: messages.length,
                   itemBuilder: (context, index) {
                     final message = messages[index];
-                    final isSender = index % 2 == 0;
+                    final isSender = index % 2 == 1;
                     final messageTime = message['time'];
                     final messageText = message['message'];
 
@@ -184,7 +184,7 @@ class ChatScreen extends StatelessWidget {
                                   child: Text(
                                     messageTime!,
                                     style: const TextStyle(
-                                      color: Colors.black, // Time in black
+                                      color: Colors.grey,
                                       fontSize: 10,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -224,7 +224,7 @@ class ChatScreen extends StatelessWidget {
                 );
               }
 
-              return Container(); // Fallback
+              return Container();
             },
           ),
         ),

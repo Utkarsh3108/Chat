@@ -4,27 +4,27 @@ import 'package:http/http.dart' as http;
 class ChatApiService {
   final String _url = "https://dummyjson.com/comments";
 
-  Future<List<Map<String, String>>> fetchMessages() async {
-    try {
-      final response = await http.get(Uri.parse(_url));
+  Future<List<Map<String, String>>> fetchSenderMessages() async {
+    final response = await http.get(Uri.parse(_url));
 
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-
-        List<Map<String, String>> messages = [];
-        for (var comment in data['comments']) {
-          messages.add({
-            'message': comment['body'],
-            'user': comment['user']['username'],
-            'time': "12:00 PM",
-          });
-        }
-        return messages;
-      } else {
-        throw Exception('Failed to load chat messages');
-      }
-    } catch (e) {
-      throw Exception('Failed to load chat messages: $e');
+    if (response.statusCode != 200) {
+      throw Exception('Failed to load chat messages');
     }
+
+    final data = json.decode(response.body);
+
+    return (data['comments'] as List).map<Map<String, String>>((comment) {
+      return {
+        'message': comment['body'],
+        'time': _formatTime(DateTime.now()),
+      };
+    }).toList();
+  }
+
+  String _formatTime(DateTime time) {
+    final hour = time.hour % 12 == 0 ? 12 : time.hour % 12;
+    final minute = time.minute.toString().padLeft(2, '0');
+    final period = time.hour >= 12 ? 'PM' : 'AM';
+    return "$hour:$minute $period";
   }
 }
