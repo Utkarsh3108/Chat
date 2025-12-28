@@ -35,7 +35,6 @@ class UsersWidget extends StatelessWidget {
                           builder: (context) => ChatScreen(
                             userName: user.name,
                             status: user.status,
-                          
                           ),
                         ),
                       );
@@ -127,62 +126,70 @@ class UsersWidget extends StatelessWidget {
         floatingActionButton: BlocBuilder<UsersBloc, UsersState>(
           builder: (blocContext, state) {
             return FloatingActionButton(
-            onPressed: () {
-              // Show dialog to add a user
-              showDialog(
-                context: context,
-                builder: (context) {
-                  final controller = TextEditingController();
-                  return AlertDialog(
-                    backgroundColor: Colors.white,
-                    title: const Text(
-                      'Add User',
-                      style: TextStyle(color: Colors.blue),
-                    ),
-                    content: TextField(
-                      controller: controller,
-                      decoration: const InputDecoration(
-                        hintStyle: TextStyle(color: Colors.blue),
-                        hintText: 'Enter name',
+              onPressed: () {
+                // Show dialog to add a user
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    final controller = TextEditingController();
+                    return AlertDialog(
+                      backgroundColor: Colors.white,
+                      title: const Text(
+                        'Add User',
+                        style: TextStyle(color: Colors.blue),
                       ),
-                    ),
-                    actions: [
-                      TextButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: const Text(
-                          'Cancel',
-                          style: TextStyle(color: Colors.blue),
+                      content: TextField(
+                        controller: controller,
+                        decoration: const InputDecoration(
+                          hintStyle: TextStyle(color: Colors.blue),
+                          hintText: 'Enter name',
                         ),
                       ),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue,
-                        ), // Background color
-                        onPressed: () {
-                          final name = controller.text.trim();
-                          if (name.isNotEmpty) {
-                            // Add user event
-                            blocContext.read<UsersBloc>().add(AddUser(name));
-                            Navigator.pop(
-                              context,
-                            ); // Close the dialog after adding user
-                          }
-                        },
-                        child: const Text(
-                          'Add',
-                          style: TextStyle(color: Colors.white),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text(
+                            'Cancel',
+                            style: TextStyle(color: Colors.blue),
+                          ),
                         ),
-                      ),
-                    ],
-                  );
-                },
-              );
-            },
-            shape: const CircleBorder(),
-            backgroundColor: Colors.blue,
-            child: const Icon(Icons.add, color: Colors.white),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue,
+                          ), // Background color
+                          onPressed: () {
+                            final name = controller.text.trim();
+                            if (name.isNotEmpty) {
+                              blocContext.read<UsersBloc>().add(AddUser(name));
+
+                              Navigator.pop(context); // close dialog
+
+                              // ✅ Show snackbar
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('User added - $name'),
+                                  behavior: SnackBarBehavior.floating,
+                                  duration: const Duration(seconds: 2),
+                                ),
+                              );
+                            }
+                          },
+
+                          child: const Text(
+                            'Add',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+              shape: const CircleBorder(),
+              backgroundColor: Colors.blue,
+              child: const Icon(Icons.add, color: Colors.white),
             );
-          }
+          },
         ),
       ),
     );
